@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../DonateFood.css';
 import MapComponent from './MapComponent';
 
@@ -20,7 +20,48 @@ function DonationForm() {
     agreement: false
   });
 
+  const [donationSubmitted, setDonationSubmitted] = useState(() => {
+    return localStorage.getItem('donationSubmitted') === 'true';
+  });
+
+  const [submissionTime, setSubmissionTime] = useState(() => {
+    const stored = localStorage.getItem('submissionTime');
+    return stored ? parseInt(stored, 10) : null;
+  });
+
+  const [countdown, setCountdown] = useState(() => {
+    const storedTime = localStorage.getItem('submissionTime');
+    if (storedTime) {
+      const elapsed = Math.floor((Date.now() - parseInt(storedTime, 10)) / 1000);
+      return Math.max(30 * 60 - elapsed, 0);
+    }
+    return 30 * 60;
+  });
+
   const allergensList = ['Nuts', 'Dairy', 'Gluten', 'Soy', 'Eggs'];
+
+  useEffect(() => {
+    if (donationSubmitted && submissionTime) {
+      const timer = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - submissionTime) / 1000);
+        const remaining = 30 * 60 - elapsed;
+        setCountdown(remaining > 0 ? remaining : 0);
+
+        if (remaining <= 0) {
+          clearInterval(timer);
+          localStorage.removeItem('donationSubmitted');
+          localStorage.removeItem('submissionTime');
+        }
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [donationSubmitted, submissionTime]);
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -38,15 +79,64 @@ function DonationForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.agreement) {
       alert("Please agree to the food safety terms before submitting.");
       return;
     }
-    console.log("Form submitted:", form);
-    alert("Thank you for your donation!");
+
+    try {
+      const res = await fetch('http://localhost:5000/api/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+
+      if (res.ok) {
+        alert('Thank you for your donation!');
+        setDonationSubmitted(true);
+        const now = Date.now();
+        localStorage.setItem('donationSubmitted', 'true');
+        localStorage.setItem('submissionTime', now.toString());
+        setSubmissionTime(now);
+      } else {
+        alert('Something went wrong. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error submitting donation:', error);
+      alert('Error connecting to backend.');
+    }
   };
+
+  if (donationSubmitted) {
+    return (
+      <div className="donation-form">
+        <h2>🎉 Thank You for Donating, {form.name}!</h2>
+        <p style={{ maxWidth: '600px', margin: '0 auto' }}>
+          Your food donation has been received. Our rider is on the way 🚴‍♂️
+        </p>
+
+        <div style={{
+          background: '#fff0ec',
+          borderRadius: '12px',
+          padding: '20px',
+          marginTop: '30px',
+          fontSize: '1.2rem'
+        }}>
+          <strong>Estimated Rider Arrival:</strong> <span style={{ color: '#e63946' }}>{formatTime(countdown)}</span>
+        </div>
+
+        <section className="map-section" style={{ marginTop: '40px' }}>
+          <h3>Pickup Location</h3>
+          <p style={{ marginBottom: '10px', color: '#555' }}>
+            Based on the address you provided:
+          </p>
+          <MapComponent address={form.address} />
+        </section>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -112,14 +202,6 @@ function DonationForm() {
 
         <button type="submit" className="submit-btn">Submit Donation</button>
       </form>
-
-      <section className="map-section">
-        <h2>Confirm Pickup Location on Map</h2>
-        <p style={{ marginBottom: '20px', color: '#555' }}>
-          You can search and mark the exact address from where our volunteers should collect the food.
-        </p>
-        <MapComponent />
-      </section>
     </>
   );
 }
