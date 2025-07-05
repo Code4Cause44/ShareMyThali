@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import Chatbot from './components/Chatbot';
 import ThemeToggle from './components/ThemeToggle';
 import Partners from './components/Partners';
+import DonateFood from './components/DonateFood';
 
 function Home() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/donate" element={<DonateFood />} />
       </Routes>
       <Footer />
     </Router>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 function Navbar() {
   return (
     <nav className="navbar">
@@ -8,7 +10,9 @@ function Navbar() {
         <li>How It Works</li>
         <li>About Us</li>
         <li>Contact</li>
-        <button className="btn">Donate Food</button>
+        <Link to="/donate">
+          <button className="btn">Donate Food</button>
+        </Link>
       </ul>
     </nav>
   );
