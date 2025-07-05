@@ -13,34 +13,36 @@ import Chatbot from './components/Chatbot';
 import ThemeToggle from './components/ThemeToggle';
 import Partners from './components/Partners';
 import DonateFood from './components/DonateFood';
+import RequestFood from './components/RequestFood'; 
 
 function Home() {
-  return (
-    <>
-      <ThemeToggle />
-      <Hero />
-      <Features />
-      <Testimonials />
-      <Partners />
-      <CallToAction />
-      <Chatbot />
-    </>
-  );
+    return (
+        <>
+            <ThemeToggle />
+            <Hero />
+            <Features />
+            <Testimonials />
+            <Partners />
+            <CallToAction />
+            <Chatbot />
+        </>
+    );
 }
 
 function App() {
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/donate" element={<DonateFood />} />
-      </Routes>
-      <Footer />
-    </Router>
-  );
+    return (
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/donate" element={<DonateFood />} />
+                <Route path="/request" element={<RequestFood />} /> 
+            </Routes>
+            <Footer />
+        </Router>
+    );
 }
 
 export default App;
