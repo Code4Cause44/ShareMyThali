@@ -1,5 +1,20 @@
 const Donation = require('../models/Donation');
 
+exports.updateDonationStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const donation = await Donation.findByIdAndUpdate(id, { status }, { new: true });
+    if (!donation) return res.status(404).json({ message: 'Donation not found' });
+
+    res.status(200).json(donation);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating status', error });
+  }
+};
+
+
 exports.createDonation = async (req, res) => {
   try {
     const donation = new Donation(req.body);

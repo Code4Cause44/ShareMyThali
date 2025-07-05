@@ -10,14 +10,16 @@ const donationSchema = new mongoose.Schema({
   cuisine: String,
   quantity: Number,
   vegetarian: String,
-  preparedAt: Date,
+  preparedAt: String,
   hygienic: Boolean,
   allergens: [String],
   pickupTime: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
+  agreement: Boolean,
+  status: {
+    type: String,
+    default: 'Pending', 
+    enum: ['Pending', 'Picked Up', 'Delivered']
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Donation', donationSchema);

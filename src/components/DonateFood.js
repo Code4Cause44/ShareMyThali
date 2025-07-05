@@ -38,7 +38,33 @@ function DonationForm() {
     return 30 * 60;
   });
 
+  const [stats, setStats] = useState({
+    totalDonations: 0,
+    totalServings: 0,
+    livesImpacted: 0,
+    donationsToday: 0
+  });
+
   const allergensList = ['Nuts', 'Dairy', 'Gluten', 'Soy', 'Eggs'];
+
+  useEffect(() => {
+    const savedStats = localStorage.getItem('donationStats');
+    if (savedStats) {
+      setStats(JSON.parse(savedStats));
+    }
+  }, []);
+
+  const updateStats = (quantity) => {
+    const newStats = {
+      totalDonations: stats.totalDonations + 1,
+      totalServings: stats.totalServings + parseInt(quantity || 0),
+      livesImpacted: stats.livesImpacted + parseInt(quantity || 0),
+      donationsToday: stats.donationsToday + 1
+    };
+    
+    setStats(newStats);
+    localStorage.setItem('donationStats', JSON.stringify(newStats));
+  };
 
   useEffect(() => {
     if (donationSubmitted && submissionTime) {
@@ -87,7 +113,7 @@ function DonationForm() {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/donate', {
+      const res = await fetch('http://localhost:5000/api/donations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -95,6 +121,9 @@ function DonationForm() {
 
       if (res.ok) {
         alert('Thank you for your donation!');
+        
+        updateStats(form.quantity);
+        
         setDonationSubmitted(true);
         const now = Date.now();
         localStorage.setItem('donationSubmitted', 'true');
@@ -133,6 +162,70 @@ function DonationForm() {
             Based on the address you provided:
           </p>
           <MapComponent address={form.address} />
+        </section>
+
+        <section className="donation-stats">
+          <h3 className="stats-title">
+            Your Impact & Community Stats
+          </h3>
+          
+          <div className="stats-grid">
+            <div className="stat-card stat-card-purple">
+              <div className="stat-number">
+                {stats.totalDonations}
+              </div>
+              <div className="stat-label">
+                Total Donations
+              </div>
+            </div>
+
+            <div className="stat-card stat-card-pink">
+              <div className="stat-number">
+                {stats.totalServings}
+              </div>
+              <div className="stat-label">
+                Total Servings
+              </div>
+            </div>
+
+            <div className="stat-card stat-card-blue">
+              <div className="stat-number">
+                {stats.livesImpacted}
+              </div>
+              <div className="stat-label">
+                Lives Impacted
+              </div>
+            </div>
+
+            <div className="stat-card stat-card-orange">
+              <div className="stat-number">
+                {stats.donationsToday}
+              </div>
+              <div className="stat-label">
+                Donations Today
+              </div>
+            </div>
+          </div>
+
+          <div className="contribution-highlight">
+            <h4 className="contribution-title">
+              🌟 Your Contribution Today
+            </h4>
+            <p className="contribution-text">
+              You've contributed <strong>{form.quantity} servings</strong> of {form.foodType.toLowerCase()} food, 
+              potentially feeding <strong>{form.quantity} people</strong> in need!
+            </p>
+          </div>
+
+          <div className="motivational-message">
+            <h4 className="motivational-title">
+              🙏 Thank you for making a difference!
+            </h4>
+            <p className="motivational-text">
+              Every donation counts. Together, we're building a community where no one goes hungry. 
+              Your kindness creates a ripple effect of positive change.
+            </p>
+          </div>
         </section>
       </div>
     );

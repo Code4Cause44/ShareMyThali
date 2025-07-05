@@ -230,3 +230,209 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   z-index: 0;
 }
+
+.donation-stats {
+  margin-top: 40px;
+  padding: 40px 10%;
+  background-color: var(--card-bg);
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .donation-stats {
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+}
+
+.stats-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-text);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-purple {
+  background: linear-gradient(135deg, #ded4c8, #ffe0cc);
+}
+
+.stat-card-pink {
+  background: linear-gradient(135deg, #fad9b1, #f2cbb1);
+}
+
+.stat-card-blue {
+  background: linear-gradient(135deg, #fad9b1, #f2cbb1);
+}
+
+.stat-card-orange {
+  background: linear-gradient(135deg, #ded4c8, #ffe0cc);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.contribution-highlight {
+  background: linear-gradient(135deg, #fad9b1, #f2cbb1);
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.contribution-highlight:hover {
+  transform: translateY(-3px);
+}
+
+.contribution-title {
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.contribution-text {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+.motivational-message {
+  background-color: var(--card-bg);
+  border: 2px solid #e9ecef;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  color: var(--primary-text);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .motivational-message {
+  border-color: #4a5568;
+  background-color: var(--card-bg);
+}
+
+.motivational-title {
+  margin: 0 0 15px 0;
+  color: var(--primary-text);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .motivational-title {
+  color: #68d391;
+}
+
+.motivational-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--primary-text);
+  opacity: 0.9;
+}
+
+.timer-display {
+  background: linear-gradient(135deg, #fff0ec, #ffe2d1);
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 30px;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .timer-display {
+  background: linear-gradient(135deg, #2d3748, #4a5568);
+  color: var(--primary-text);
+}
+
+.timer-display strong {
+  color: var(--primary-text);
+}
+
+.timer-display .countdown {
+  color: #e63946;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+[data-theme='dark'] .timer-display .countdown {
+  color: #ff6f61;
+}
+
+@media (max-width: 768px) {
+  .donation-stats {
+    padding: 30px 5%;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  .stat-card {
+    padding: 20px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stats-title {
+    font-size: 1.6rem;
+  }
+  
+  .contribution-highlight,
+  .motivational-message {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .stat-card {
+    padding: 15px;
+  }
+  
+  .stat-number {
+    font-size: 1.8rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+  }
+}
