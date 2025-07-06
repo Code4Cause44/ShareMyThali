@@ -94,7 +94,7 @@ function Login() {
                     </button>
                 </form>
                 <p className="auth-switch-link">
-                    Don't have an account? <Link to="/register">Register here</Link>
+                    Don't have an account? <Link to="/register">Register here now</Link>
                 </p>
             </div>
         </div>

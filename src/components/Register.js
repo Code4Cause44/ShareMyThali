@@ -118,7 +118,7 @@ function Register() {
                     </button>
                 </form>
                 <p className="auth-switch-link">
-                    Already have an account? <Link to="/login">Login here</Link>
+                    Already have an account on ShareMyThali? <Link to="/login">Login here</Link>
                 </p>
             </div>
         </div>

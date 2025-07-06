@@ -268,7 +268,7 @@ function DonateFood() {
 
                     <div className="motivational-message">
                         <h4 className="motivational-title">
-                            🙏 Thank you for making a difference!
+                            🙏 Thank you for making a huge difference!
                         </h4>
                         <p className="motivational-text">
                             Every donation counts. Together, we're building a community where no one goes hungry.
