@@ -50,7 +50,7 @@ function Login() {
                 alert(data.message);
                 navigate('/');
             } else {
-                setError(data.message || 'Login failed. Please check your credentials.');
+                setError(data.message || 'Login failed. Please check your credentials again.');
             }
         } catch (err) {
             console.error('Login error:', err);

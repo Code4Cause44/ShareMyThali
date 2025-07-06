@@ -198,7 +198,7 @@ function DonateFood() {
             <div className="donation-form donation-success-container"> 
                 <h2>🎉 Thank You for Donating!</h2>
                 <p style={{ maxWidth: '600px', margin: '0 auto' }}>
-                    Your food donation has been received. Our rider is on the way 🚴‍♂️
+                    Your food donation has been received. Our rider is on the way 
                 </p>
 
                 <div className="countdown-display"> 

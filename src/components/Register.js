@@ -47,7 +47,7 @@ function Register() {
             }
         } catch (err) {
             console.error('Registration error:', err);
-            setError('Network error. Please try again.');
+            setError('Network error. Please try again later.');
         } finally {
             setLoading(false);
         }
