@@ -1,0 +1,178 @@
+.dashboard-container {
+    padding: 60px 10%;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+.dashboard-card {
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    width: 90%;
+    max-width: 900px; 
+    text-align: center;
+    color: var(--primary-text);
+    margin-top: 50px; 
+}
+
+.dashboard-card h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--button-bg);
+}
+
+.dashboard-card .welcome-message {
+    font-size: 1.1rem;
+    color: var(--secondary-text);
+    margin-bottom: 30px;
+}
+
+.dashboard-content {
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.dashboard-content p {
+    margin-bottom: 10px;
+}
+[data-theme='dark'] .dashboard-card {
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+}
+.donations-list,
+.requests-list {
+    display: grid;
+    gap: 25px; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    padding: 20px 0;
+}
+
+.donation-item-card,
+.request-item-card {
+    background-color: var(--secondary-card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.donation-item-card:hover,
+.request-item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.donation-item-card h3,
+.request-item-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.donation-item-card p,
+.request-item-card p {
+    font-size: 0.95rem;
+    color: var(--secondary-text);
+}
+
+.donation-item-card p strong,
+.request-item-card p strong {
+    color: var(--primary-text);
+}
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    margin-left: 8px;
+}
+
+.status-badge.status-pending { background-color: #ffc107; color: #333; }
+.status-badge.status-confirmed { background-color: #28a745; }
+.status-badge.status-picked-up { background-color: #007bff; }
+.status-badge.status-delivered { background-color: #6f42c1; }
+.status-badge.status-cancelled { background-color: #dc3545; }
+.status-badge.status-accepted { background-color: #20c997; } 
+.status-badge.status-rejected { background-color: #6c757d; } 
+.status-badge.status-fulfilled { background-color: #17a2b8; } 
+
+.donation-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.action-button.confirm-button {
+    background-color: #28a745;
+    color: white;
+}
+.action-button.confirm-button:hover {
+    background-color: #218838;
+}
+
+.action-button.cancel-button {
+    background-color: #dc3545; 
+    color: white;
+}
+.action-button.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.submission-message {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.submission-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.submission-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.loading-spinner {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    text-align: center;
+    padding: 50px;
+}
+
+[data-theme='dark'] .donation-item-card,
+[data-theme='dark'] .request-item-card {
+    background-color: var(--dark-card-secondary-bg); 
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.03);
+}
+
+[data-theme='dark'] .donation-item-card:hover,
+[data-theme='dark'] .request-item-card:hover {
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.08);
+}

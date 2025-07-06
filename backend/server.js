@@ -4,14 +4,16 @@ const cors = require('cors');
 require('dotenv').config();
 
 const donationRoutes = require('./routes/donations');
-const requestRoutes = require('./routes/requests'); 
+const requestRoutes = require('./routes/requests');
+const authRoutes = require('./routes/auth'); 
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => res.send('API is working'));
-
+app.use('/api/auth', authRoutes);
 app.use('/api/donations', donationRoutes);
 app.use('/api/requests', requestRoutes);
 

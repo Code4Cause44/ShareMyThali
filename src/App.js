@@ -13,7 +13,13 @@ import Chatbot from './components/Chatbot';
 import ThemeToggle from './components/ThemeToggle';
 import Partners from './components/Partners';
 import DonateFood from './components/DonateFood';
-import RequestFood from './components/RequestFood'; 
+import RequestFood from './components/RequestFood';
+import Register from './components/Register';
+import Login from './components/Login';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import MyDonations from './components/MyDonations';
+import MyRequests from './components/MyRequests';
 
 function Home() {
     return (
@@ -31,17 +37,51 @@ function Home() {
 
 function App() {
     return (
-        <Router>
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/donate" element={<DonateFood />} />
-                <Route path="/request" element={<RequestFood />} /> 
-            </Routes>
-            <Footer />
-        </Router>
+        <AuthProvider>
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/donate"
+                        element={
+                            <ProtectedRoute allowedRoles={['donor', 'admin']}>
+                                <DonateFood />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/request"
+                        element={
+                            <ProtectedRoute allowedRoles={['organization', 'admin']}>
+                                <RequestFood />
+                            </ProtectedRoute>
+                        }
+                    />
+                     <Route
+                        path="/my-donations"
+                        element={
+                            <ProtectedRoute allowedRoles={['donor', 'admin']}>
+                                <MyDonations />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/my-requests"
+                        element={
+                            <ProtectedRoute allowedRoles={['organization', 'admin']}>
+                                <MyRequests />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+                <Footer />
+            </Router>
+        </AuthProvider>
     );
 }
 

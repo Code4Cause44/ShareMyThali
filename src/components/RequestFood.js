@@ -1,41 +1,69 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../context/AuthContext'; 
 import '../RequestFood.css';
 
 function RequestFood() {
+    const { isAuthenticated, user, isOrganization, loading: authLoading } = useAuth();
+    const navigate = useNavigate();
+
     const [availableDonations, setAvailableDonations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showRequestForm, setShowRequestForm] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState(null);
     const [requestForm, setRequestForm] = useState({
-        requesterName: '',
-        requesterEmail: '',
-        requesterPhone: '',
-        organizationName: '',
-        organizationAddress: '',
         quantityRequested: ''
     });
     const [submissionMessage, setSubmissionMessage] = useState(null);
+    useEffect(() => {
+        if (!authLoading && (!isAuthenticated || !isOrganization)) {
+            alert('You must be logged in as an Organization to request food.');
+            navigate('/login');
+        }
+    }, [isAuthenticated, isOrganization, authLoading, navigate]);
+
 
     useEffect(() => {
         const fetchAvailableDonations = async () => {
+            if (!isAuthenticated || !isOrganization) {
+                setLoading(false);
+                return;
+            }
+
             try {
-                const res = await fetch('http://localhost:5000/api/requests/available-donations');
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setError('Authentication token missing. Please log in.');
+                    setLoading(false);
+                    return;
+                }
+
+                const res = await fetch('http://localhost:5000/api/requests/available-donations', {
+                    headers: {
+                        'Authorization': `Bearer ${token}` 
+                    }
+                });
+
                 if (!res.ok) {
+                    if (res.status === 403) {
+                         throw new Error('Unauthorized to view donations. Please log in as an organization.');
+                    }
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
                 const data = await res.json();
                 setAvailableDonations(data);
             } catch (err) {
-                setError('Failed to fetch available donations. Please try again later.');
+                setError(err.message || 'Failed to fetch available donations. Please try again later.');
                 console.error('Error fetching available donations:', err);
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchAvailableDonations();
-    }, []);
+        if (isAuthenticated && isOrganization) {
+            fetchAvailableDonations();
+        }
+    }, [isAuthenticated, isOrganization]); 
 
     const handleRequestFormChange = (e) => {
         const { name, value } = e.target;
@@ -45,8 +73,6 @@ function RequestFood() {
     const handleRequestSubmit = async (e) => {
         e.preventDefault();
         if (!selectedDonation) return;
-
-        // Basic validation
         if (requestForm.quantityRequested <= 0 || requestForm.quantityRequested > selectedDonation.quantityAvailable) {
             alert('Please request a valid quantity within the available amount.');
             return;
@@ -54,29 +80,31 @@ function RequestFood() {
 
         const payload = {
             donationId: selectedDonation._id,
-            ...requestForm,
             quantityRequested: parseInt(requestForm.quantityRequested, 10)
         };
 
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('You are not authenticated. Please log in.');
+                navigate('/login');
+                return;
+            }
+
             const res = await fetch('http://localhost:5000/api/requests', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(payload)
             });
 
             if (res.ok) {
-                setSubmissionMessage(`Request for ${selectedDonation.foodType} (${selectedDonation.quantity} servings) submitted successfully!`);
+                setSubmissionMessage(`Request for ${selectedDonation.foodType} (${payload.quantityRequested} servings) submitted successfully!`);
                 setShowRequestForm(false);
                 setSelectedDonation(null);
-                setRequestForm({
-                    requesterName: '',
-                    requesterEmail: '',
-                    requesterPhone: '',
-                    organizationName: '',
-                    organizationAddress: '',
-                    quantityRequested: ''
-                });
+                setRequestForm({ quantityRequested: '' }); 
                 const updatedDonations = availableDonations.map(d =>
                     d._id === selectedDonation._id
                         ? { ...d, quantityAvailable: d.quantityAvailable - payload.quantityRequested }
@@ -103,16 +131,12 @@ function RequestFood() {
     const closeRequestForm = () => {
         setShowRequestForm(false);
         setSelectedDonation(null);
-        setRequestForm({
-            requesterName: '',
-            requesterEmail: '',
-            requesterPhone: '',
-            organizationName: '',
-            organizationAddress: '',
-            quantityRequested: ''
-        });
+        setRequestForm({ quantityRequested: '' });
         setSubmissionMessage(null);
     };
+    if (authLoading || (!isAuthenticated && !authLoading)) {
+        return <div className="request-food-container">Checking authentication...</div>;
+    }
 
     if (loading) {
         return <div className="request-food-container">Loading available donations...</div>;
@@ -144,7 +168,12 @@ function RequestFood() {
                             <h3>{donation.foodType} ({donation.cuisine})</h3>
                             <p><strong>Quantity:</strong> {donation.quantityAvailable} servings</p>
                             <p><strong>Prepared At:</strong> {new Date(donation.preparedAt).toLocaleString()}</p>
-                            <p><strong>Location:</strong> {donation.address}, {donation.landmark}</p>
+                            {donation.donor?.organizationName ? (
+                                <p><strong>Donor Org:</strong> {donation.donor.organizationName}</p>
+                            ) : (
+                                <p><strong>Donor:</strong> {donation.donor?.username || 'Unknown Donor'}</p>
+                            )}
+                            <p><strong>Location:</strong> {donation.donor?.address || 'Not specified'}, {donation.donor?.landmark || ''}</p>
                             <p><strong>Vegetarian:</strong> {donation.vegetarian}</p>
                             {donation.allergens && donation.allergens.length > 0 && (
                                 <p><strong>Allergens:</strong> {donation.allergens.join(', ')}</p>
@@ -167,45 +196,6 @@ function RequestFood() {
                         <p className="modal-description">Available: {selectedDonation.quantityAvailable} servings</p>
 
                         <form onSubmit={handleRequestSubmit}>
-                            <input
-                                type="text"
-                                name="requesterName"
-                                value={requestForm.requesterName}
-                                onChange={handleRequestFormChange}
-                                placeholder="Your Name"
-                                required
-                            />
-                            <input
-                                type="email"
-                                name="requesterEmail"
-                                value={requestForm.requesterEmail}
-                                onChange={handleRequestFormChange}
-                                placeholder="Your Organization Email"
-                                required
-                            />
-                            <input
-                                type="tel"
-                                name="requesterPhone"
-                                value={requestForm.requesterPhone}
-                                onChange={handleRequestFormChange}
-                                placeholder="Contact Phone"
-                                required
-                            />
-                             <input
-                                type="text"
-                                name="organizationName"
-                                value={requestForm.organizationName}
-                                onChange={handleRequestFormChange}
-                                placeholder="Organization Name"
-                                required
-                            />
-                            <textarea
-                                name="organizationAddress"
-                                value={requestForm.organizationAddress}
-                                onChange={handleRequestFormChange}
-                                placeholder="Organization Address"
-                                required
-                            />
                             <input
                                 type="number"
                                 name="quantityRequested"

@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
 const donationSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    phone: String,
-    address: String,
-    landmark: String,
+    donor: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     foodType: String,
     cuisine: String,
     quantity: Number,
     quantityAvailable: {
         type: Number,
         required: true,
-        default: function() { return this.quantity; } 
+        default: function() { return this.quantity; }
     },
     vegetarian: String,
     preparedAt: String,

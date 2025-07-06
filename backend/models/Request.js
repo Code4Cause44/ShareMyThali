@@ -3,33 +3,23 @@ const mongoose = require('mongoose');
 const requestSchema = new mongoose.Schema({
     donation: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Donation', 
+        ref: 'Donation',
         required: true
     },
-    requesterName: {
-        type: String,
+    organization: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
-    requesterEmail: {
-        type: String,
-        required: true
-    },
-    requesterPhone: {
-        type: String,
-        required: true
-    },
-    organizationName: {
-        type: String,
-        required: true
-    },
-    organizationAddress: {
-        type: String,
-        required: true
+    donor: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true 
     },
     quantityRequested: {
         type: Number,
         required: true,
-        min: 1 
+        min: 1
     },
     status: {
         type: String,
@@ -50,10 +40,9 @@ const requestSchema = new mongoose.Schema({
         type: Date
     }
 }, {
-    timestamps: true 
+    timestamps: true
 });
-
-requestSchema.index({ donation: 1, requesterEmail: 1 }, { unique: true, sparse: true });
+requestSchema.index({ donation: 1, organization: 1 }, { unique: true, sparse: true });
 
 
 module.exports = mongoose.model('Request', requestSchema);
