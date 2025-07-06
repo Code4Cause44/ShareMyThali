@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext'; 
 import '../AuthForms.css'; 
 
 function Register() {
@@ -38,7 +38,8 @@ function Register() {
             const data = await res.json();
 
             if (res.ok) {
-                login(data, data.token); 
+                const { token, message, ...userData } = data;
+                login(userData, token); 
                 alert(data.message);
                 navigate('/');
             } else {

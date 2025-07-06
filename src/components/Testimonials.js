@@ -1,4 +1,3 @@
-// Testimony.js
 import React from 'react';
 import Slider from 'react-slick';
 import '../App.css';

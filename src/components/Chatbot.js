@@ -11,7 +11,7 @@ function Chatbot() {
   const predefinedQuestions = [
     {
       question: "How can I donate food?",
-      answer: "Click on the 'Become a Donor' button and register your food donation details.",
+      answer: "Click on the 'Donate Food' button and register your food donation details.",
     },
     {
       question: "Is the donation pickup free?",

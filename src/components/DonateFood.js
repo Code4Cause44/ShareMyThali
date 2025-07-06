@@ -17,6 +17,9 @@ function DonateFood() {
         allergens: [],
         pickupTime: '',
         agreement: false,
+        phone: '',
+        address: '',
+        landmark: '',
     });
 
     const [donationSubmitted, setDonationSubmitted] = useState(() => {
@@ -45,12 +48,23 @@ function DonateFood() {
     });
 
     const allergensList = ['Nuts', 'Dairy', 'Gluten', 'Soy', 'Eggs'];
+    
     useEffect(() => {
         if (!authLoading && (!isAuthenticated || !isDonor)) {
             alert('You must be logged in as a Donor to donate food.');
             navigate('/login'); 
         }
     }, [isAuthenticated, isDonor, authLoading, navigate]);
+    useEffect(() => {
+        if (user) {
+            setForm(prev => ({
+                ...prev,
+                phone: user.phone || '',
+                address: user.address || '',
+                landmark: user.landmark || '',
+            }));
+        }
+    }, [user]);
 
     useEffect(() => {
         const savedStats = localStorage.getItem('donationStats');
@@ -70,6 +84,7 @@ function DonateFood() {
         setStats(newStats);
         localStorage.setItem('donationStats', JSON.stringify(newStats));
     };
+    
     useEffect(() => {
         if (donationSubmitted && submissionTime) {
             const timer = setInterval(() => {
@@ -111,6 +126,15 @@ function DonateFood() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!form.phone.trim()) {
+            alert("Please enter your contact number.");
+            return;
+        }
+        if (!form.address.trim()) {
+            alert("Please enter your pickup address.");
+            return;
+        }
+        
         if (!form.agreement) {
             alert("Please agree to the food safety terms before submitting.");
             return;
@@ -168,6 +192,7 @@ function DonateFood() {
     if (authLoading || (!isAuthenticated && !authLoading)) {
         return <div className="donation-form-container">Checking authentication...</div>;
     }
+    
     if (donationSubmitted) {
         return (
             <div className="donation-form donation-success-container"> 
@@ -185,7 +210,7 @@ function DonateFood() {
                     <p style={{ marginBottom: '10px', color: '#555' }}>
                         Based on your registered address:
                     </p>
-                    <MapComponent address={user?.address || 'Your registered address'} />
+                    <MapComponent address={form.address || 'Your registered address'} />
                 </section>
 
                 <section className="donation-stats">
@@ -261,10 +286,28 @@ function DonateFood() {
                 <h2>Donate Food</h2>
                 <input type="text" name="name" value={user?.username || ''} placeholder="Your Full Name" readOnly />
                 <input type="email" name="email" value={user?.email || ''} placeholder="Email Address" readOnly />
-                <input type="tel" name="phone" value={user?.phone || ''} placeholder="Contact Number" readOnly />
-                <textarea name="address" value={user?.address || ''} placeholder="Pickup Address" readOnly />
-                <input type="text" name="landmark" value={user?.landmark || ''} placeholder="Nearby Landmark" readOnly />
-
+                <input 
+                    type="tel" 
+                    name="phone" 
+                    value={form.phone} 
+                    onChange={handleChange}
+                    placeholder="Contact Number" 
+                    required 
+                />
+                <textarea 
+                    name="address" 
+                    value={form.address} 
+                    onChange={handleChange}
+                    placeholder="Pickup Address" 
+                    required 
+                />
+                <input 
+                    type="text" 
+                    name="landmark" 
+                    value={form.landmark} 
+                    onChange={handleChange}
+                    placeholder="Nearby Landmark" 
+                />
 
                 <select name="foodType" value={form.foodType} onChange={handleChange} required>
                     <option value="">Select Food Type</option>
