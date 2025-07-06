@@ -18,8 +18,6 @@ ShareMyThali is a web application designed to combat food waste and hunger by co
     * [Running the Application](#running-the-application)
 5.  [Usage](#usage)
 6.  [Future Enhancements](#future-enhancements)
-7.  [Contributing](#contributing)
-8.  [License](#license)
 
 ---
 
