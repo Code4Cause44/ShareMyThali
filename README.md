@@ -1,70 +1,266 @@
-# Getting Started with Create React App
+🍽️ ShareMyThali: Bridging Surplus Food with Those in Need
+A Platform for Food Donation and Request Management
+ShareMyThali is a web application designed to combat food waste and hunger by connecting individuals and organizations with surplus food to NGOs and charities in need. Our platform facilitates seamless food donations and requests, ensuring that nutritious food reaches those who need it most, efficiently and hygienically.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📋 Table of Contents
+About the Project
 
-## Available Scripts
+Features
 
-In the project directory, you can run:
+Technologies Used
 
-### `npm start`
+Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Installation
 
-### `npm test`
+Environment Variables
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Running the Application
 
-### `npm run build`
+Usage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Future Enhancements
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Contributing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+License
 
-### `npm run eject`
+💡 About the Project
+In a world where food waste is rampant and hunger persists, ShareMyThali aims to be a digital bridge. Our mission is to create a low-waste food-sharing ecosystem where excess food from homes and businesses can be easily donated, and verified NGOs can efficiently request and receive it. We prioritize food safety, transparency, and a smooth user experience to maximize impact.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+✨ Features
+Core Functionality:
+User Authentication & Authorization: Secure registration and login for different user roles (Donors, Organizations, Admin).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Role-Based Access Control (RBAC):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Donors: Can register, log in, and create food donation listings.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Organizations (NGOs/Charities): Can register, log in, browse available food donations, and submit requests.
 
-## Learn More
+Admin: (Future expansion for full management).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Food Donation Form: Intuitive form for donors to list food details (type, cuisine, quantity, preparation time, hygiene, allergens, pickup time).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Available Donations Listing: A dedicated page for organizations to view all currently available food donations.
 
-### Code Splitting
+Food Request System: Organizations can request specific quantities of food from available donations.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+My Donations Dashboard: Donors can view and manage the status of their own donations.
 
-### Analyzing the Bundle Size
+My Requests Dashboard: Organizations can view the status of their submitted food requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Real-time Pickup Tracking (Simulated): A countdown timer for estimated rider arrival after a donation is submitted.
 
-### Making a Progressive Web App
+Impact Statistics: Displays real-time metrics on total donations, servings, and lives impacted.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Theme Toggle: Light and Dark mode support for a personalized viewing experience.
 
-### Advanced Configuration
+Chatbot Integration: Provides quick answers and assistance to users.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Map Component: Visualizes pickup locations for donations.
 
-### Deployment
+Technical Highlights:
+Secure password hashing using bcryptjs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+JSON Web Token (JWT) for stateless authentication.
 
-### `npm run build` fails to minify
+Protected API routes with role-based middleware.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Client-side form validation for a better user experience.
+
+🛠️ Technologies Used
+Backend (Node.js/Express):
+
+Node.js: JavaScript runtime environment.
+
+Express.js: Web application framework for Node.js.
+
+MongoDB: NoSQL database for flexible data storage.
+
+Mongoose: ODM (Object Data Modeling) library for MongoDB and Node.js.
+
+bcryptjs: For hashing and salting passwords securely.
+
+jsonwebtoken (JWT): For creating and verifying authentication tokens.
+
+dotenv: For loading environment variables from a .env file.
+
+cors: Middleware for enabling Cross-Origin Resource Sharing.
+
+Frontend (React):
+
+React.js: JavaScript library for building user interfaces.
+
+React Router DOM: For declarative routing in React applications.
+
+Context API: For global state management (authentication).
+
+HTML5 & CSS3: For structuring and styling the web pages.
+
+JavaScript (ES6+): Core language for frontend logic.
+
+🚀 Getting Started
+Follow these instructions to set up and run the project locally.
+
+Prerequisites
+Before you begin, ensure you have the following installed:
+
+Node.js (LTS version recommended) & npm (comes with Node.js) or Yarn.
+
+Download Node.js
+
+MongoDB:
+
+Install MongoDB Community Server
+
+Alternatively, use a cloud-hosted MongoDB service like MongoDB Atlas.
+
+Installation
+Clone the repository:
+
+git clone <your-repo-url>
+cd ShareMyThali
+
+Install Backend Dependencies:
+
+cd backend
+npm install
+# or yarn install
+
+Install Frontend Dependencies:
+
+cd ../frontend # Navigate back to root, then into frontend
+npm install
+# or yarn install
+
+Environment Variables
+You need to create .env files for both your backend and frontend.
+
+Backend .env file:
+
+Create a file named .env in the backend directory.
+
+Add the following variables:
+
+MONGO_URI=mongodb://localhost:27017/sharemythali # Or your MongoDB Atlas connection string
+PORT=5000
+JWT_SECRET=YOUR_VERY_STRONG_AND_RANDOM_SECRET_KEY_HERE # Generate a long, random string
+
+To generate a JWT_SECRET: Open your Node.js terminal and run require('crypto').randomBytes(60).toString('hex'). Copy the output and use it as your secret.
+
+Frontend .env file (Optional, if you have specific frontend env vars):
+
+Create a file named .env in the frontend directory.
+
+(Currently, the frontend directly uses http://localhost:5000 for API calls, so no specific REACT_APP_API_URL is needed unless you plan to deploy).
+
+Running the Application
+Start the MongoDB Server:
+
+If running locally, ensure your MongoDB daemon (mongod) is running.
+
+If using MongoDB Atlas, ensure your cluster is accessible.
+
+Start the Backend Server:
+
+Open a new terminal.
+
+Navigate to the backend directory:
+
+cd backend
+
+Start the server:
+
+npm start
+# or node server.js
+
+You should see MongoDB connected and Server running on port 5000 in the console.
+
+Start the Frontend Development Server:
+
+Open another new terminal.
+
+Navigate to the frontend directory:
+
+cd frontend
+
+Start the React app:
+
+npm start
+# or yarn start
+
+This will typically open your application in your browser at http://localhost:3000.
+
+📝 Usage
+Register:
+
+Navigate to /register.
+
+Choose your role: "Food Donor" or "Receiving Organization".
+
+Fill in the required details and register.
+
+Login:
+
+Navigate to /login.
+
+Enter your registered email and password to log in.
+
+Donate Food (Donors):
+
+After logging in as a "Donor", navigate to /donate.
+
+Fill out the donation form with details about your surplus food.
+
+Request Food (Organizations):
+
+After logging in as an "Organization", navigate to /request.
+
+Browse available food donations and submit requests for the quantity you need.
+
+My Donations (Donors):
+
+Navigate to /my-donations to view and manage your submitted donations.
+
+My Requests (Organizations):
+
+Navigate to /my-requests to view the status of your organization's food requests.
+
+🛣️ Future Enhancements
+This project is continuously evolving. Here are some key features planned for future development to make it even more robust and hackathon-winning worthy:
+
+Donor/Organization Dashboards: Enhanced dashboards with detailed views, filtering, and actions (e.g., donors accepting/rejecting requests, organizations cancelling requests).
+
+Real-time Notifications: Implement WebSockets (e.g., Socket.IO) to notify donors of new requests and organizations of request status changes.
+
+Location-Based Matching: Allow organizations to filter donations by proximity to their location.
+
+User Profile Management: Enable users to update their personal/organization details.
+
+Review and Rating System: Allow users to rate each other to build trust and accountability.
+
+Admin Panel: A dedicated interface for administrators to manage users, donations, and requests across the platform.
+
+Automated Reminders: Implement scheduled tasks for pickup reminders or donation expiration.
+
+Deployment: Deploy the full-stack application to cloud platforms (e.g., Render, Vercel, MongoDB Atlas).
+
+Advanced UI/UX: Further polish the user interface with animations, improved feedback, and accessibility features.
+
+🤝 Contributing
+Contributions are welcome! If you have suggestions for improvements or new features, please feel free to:
+
+Fork the repository.
+
+Create a new branch (git checkout -b feature/YourFeature).
+
+Make your changes.
+
+Commit your changes (git commit -m 'feat: Add new feature').
+
+Push to the branch (git push origin feature/YourFeature).
+
+Open a Pull Request.
